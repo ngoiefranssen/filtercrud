@@ -1,10 +1,15 @@
+import React from 'react'
+import Index from '../../components/Index'
+// import { BrowserRouter, Routes, Route } from 'react-router-dom'
 
-function App() {
+
+export default function App() {
   return (
-    <>
-      Hello !
-    </>
-  );
+    // <BrowserRouter>
+    <Index />
+    //   {/* <Routes>
+    //     <Route path='' element={< />}/>
+    //   </Routes>
+    // </BrowserRouter > */}
+  )
 }
-
-export default App;
