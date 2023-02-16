@@ -53,7 +53,7 @@ const Index = () => {
     email:"",
     phone:""
   });
-  const {id} = us 
+  // const {id} = us 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name] : e.target.value });
   }
