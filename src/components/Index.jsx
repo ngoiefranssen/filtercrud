@@ -14,7 +14,7 @@ import {
 } from '@mui/material'
 import React, { useState } from 'react'
 import TableCell, { tableCellClasses } from '@mui/material/TableCell'
-import { getAllUser } from './api/apiUser'
+import { deleteUser, getAllUser, postData } from './api/apiUser'
 import EditIcon from '@mui/icons-material/Edit'
 import RemoveIcon from '@mui/icons-material/Remove'
 import MuiFormUser from './MuiFormUser'
@@ -53,15 +53,7 @@ const Index = () => {
     email:"",
     phone:""
   });
-
-  const handleSubmit=(e)=>{
-    e.preventDefault()
-    if(user?.id){ // id exist on fait l'edit
-        // return the function with edit
-    }else{
-        // elle n'existe pas la c'new user
-    } 
-  }
+  const {id} = us 
   const handleChange = (e) => {
     setUser({ ...user, [e.target.name] : e.target.value });
   }
@@ -69,11 +61,11 @@ const Index = () => {
     setUser(row)
   }
   const handleClickOpen = () => {
-      setOpen(true);
+    setOpen(true);
   };
 
   const handleClose = () => {
-      setOpen(false);
+    setOpen(false);
   };
 
   React.useEffect(() => {
@@ -85,6 +77,18 @@ const Index = () => {
     setUsers(response?.data)
     // console.log(response?.data)
   }
+  const handleToAddUser = async () => {
+    await postData(user);
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if(user?.id){ // id exist on fait l'edit
+        // return the function with edit
+    }else{
+        // elle n'existe pas la c'new user
+        handleToAddUser()
+    } 
+  }
   const handleChangePage = (even,newPage) =>{
     setPage(newPage)
   }
@@ -95,10 +99,13 @@ const Index = () => {
   
   const emptyRows = rowsPerPage - Math.min(rowsPerPage, users.length - page * rowsPerPage)
 
-  // const handle
+  // const handleToDeleteUser
+  const handleToDeleteUser = async () => {
+    await deleteUser(id)
+  }
   return (
-    <div style={{ width: "90%", margin: "50px auto 0 auto" }}>
-      <Grid position='revert-layer' height={20} marginLeft={140} margin="25px">
+    <Grid style={{ width: "90%", margin: "50px auto 0 auto" }}>
+      <Grid position='revert-layer' margin="15px" marginLeft={144.6}>
         <MuiFormUser
           user={user}
           open={open}
@@ -126,7 +133,7 @@ const Index = () => {
                     users
                     ?.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                     ?.map((user, index) => (
-                      <StyledTableRow key={user?.id} size='small'>
+                      <StyledTableRow key={user?.id}>
                           <StyledTableCell component="th" scope="row" key={index?.id}>
                             {index + 1}
                           </StyledTableCell>
@@ -140,7 +147,11 @@ const Index = () => {
                                 handleRowToEdit(user)
                                 handleClickOpen()
                               }}><EditIcon/></Button>
-                              <Button variant='container'><RemoveIcon/></Button>
+                              <Button variant='container'
+                                onClick={ () => handleToDeleteUser(user.id) }
+                              >
+                                <RemoveIcon/>
+                              </Button>
                             </ButtonGroup>
                           </StyledTableCell>
                       </StyledTableRow>
@@ -167,7 +178,7 @@ const Index = () => {
                 </TableFooter>
             </Table>
       </TableContainer>
-    </div>
+    </Grid>
     
   )
 }

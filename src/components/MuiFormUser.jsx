@@ -8,7 +8,15 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 // import MuiFormUser from '.'
 
-const MuiFormUser = ({user,open,setOpen,handleChange,handleClickOpen,handleClose}) => {
+const MuiFormUser = ({
+    user,
+    open,
+    setOpen,
+    handleChange,
+    handleClickOpen,
+    handleClose,
+    handleSubmit
+}) => {
    
     return (
         <div>
@@ -76,7 +84,7 @@ const MuiFormUser = ({user,open,setOpen,handleChange,handleClickOpen,handleClose
                 </DialogContent>
                 <DialogActions>
                 <Button onClick={handleClose}>Cancel</Button>
-                <Button onClick={handleClose}>Save</Button>
+                <Button onClick={handleClose} variant="contained" type="submit">Save</Button>
                 </DialogActions>
             </Dialog>
         </div>
